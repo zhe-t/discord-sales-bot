@@ -22,15 +22,9 @@ const getAsset = async (token: string) => {
 export default async function handler(req: any, res: any) {
   try {
     if (req.method === "POST") {
-
-      const webhook: any = process.env.DISCORD_WEBHOOK
-
-      let webhook_data = req.body
-
-      console.log(webhook_data, 'e1')
-      console.log(webhook_data[0].events.nft)
-      console.log(webhook_data[0].events.nft.nfts[0])
-      let token: any = await getAsset(webhook_data[0].events.nft.nfts[0].mint)
+      const webhook: any = process.env.DISCORD_WEBHOOK;
+      let webhook_data = req.body;
+      let token: any = await getAsset(webhook_data[0].events.nft.nfts[0].mint);
 
       const response = await fetch(webhook, {
         method: 'POST',
@@ -38,7 +32,6 @@ export default async function handler(req: any, res: any) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-
           "content": null,
           "embeds": [
             {
@@ -84,8 +77,8 @@ export default async function handler(req: any, res: any) {
               },
               timestamp: new Date().toISOString(),
               "footer": {
-                  "text": "Helius",
-                  "icon_url": "https://assets-global.website-files.com/641a8c4cac3aee8bd266fd58/642b5b2804ea37191a59737b_favicon-32x32.png",
+                "text": "Sujiko",
+                "icon_url": "https://app.sujiko.trade/favicon.ico",
               }
             }
           ],
@@ -93,13 +86,9 @@ export default async function handler(req: any, res: any) {
         },
         ),
       });
-      console.log(response)
       res.status(200).json("success")
-
     };
-
+  } catch (err) { 
+    console.log(err)
   }
-
-  catch (err) { console.log(err) }
-
 }
