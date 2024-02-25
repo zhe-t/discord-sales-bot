@@ -1,4 +1,4 @@
-const rpc = `https://api.helius.xyz/?api-key=${process.env.HELIUS_KEY}`
+const rpc = `https://rpc.helius.xyz/?api-key=${process.env.HELIUS_KEY}`
 const getAsset = async (token: string) => {
   const response = await fetch(rpc, {
     method: 'POST',
