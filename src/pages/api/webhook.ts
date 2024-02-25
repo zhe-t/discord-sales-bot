@@ -1,5 +1,4 @@
 const rpc = `https://rpc.helius.xyz/?api-key=${process.env.HELIUS_KEY}`
-
 const getAsset = async (token: string) => {
   const response = await fetch(rpc, {
     method: 'POST',
@@ -25,7 +24,7 @@ export default async function handler(req: any, res: any) {
       const webhook: any = process.env.DISCORD_WEBHOOK;
       let webhook_data = req.body;
       let token: any = await getAsset(webhook_data[0].events.nft.nfts[0].mint);
-
+      let solPrice = (await (await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd')).json()).solana.usd;
       const response = await fetch(webhook, {
         method: 'POST',
         headers: {
@@ -49,7 +48,7 @@ export default async function handler(req: any, res: any) {
                 },
                 {
                   "name": ":moneybag:  Sale Price",
-                  "value": "**" + (webhook_data[0].events.nft.amount / 1000000000).toFixed(2) + " " + "SOL**",
+                  "value": "**" + (webhook_data[0].events.nft.amount / 1000000000).toFixed(2) + " " + "SOL ($" + ((webhook_data[0].events.nft.amount / 1000000000) * solPrice).toFixed(2) + ")**",
                   "inline": true
                 },
                 {
