@@ -25,6 +25,8 @@ export default async function handler(req: any, res: any) {
       let webhook_data = req.body;
       let token: any = await getAsset(webhook_data[0].events.nft.nfts[0].mint);
       let solPrice = (await (await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd')).json()).solana.usd;
+      console.log('token', token);
+      console.log('solPrice', solPrice);
       const response = await fetch(webhook, {
         method: 'POST',
         headers: {
